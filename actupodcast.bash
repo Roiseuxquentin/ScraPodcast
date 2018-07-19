@@ -4,19 +4,29 @@
 
 H=$(date +%H)
 M=$(date +%M)
+D=$(date +%d)
 
 start()
 {
-  clear
-  Instant
   News
-  tech
+  Tech
+  clear
+  echo "Bye"
 }
 
-    #horloge parlante ! $pico2wave passe le txt en .wav $mplayer diffuse le son
-horloge ()
+Refresh()
 {
-  pico2wave -l fr-FR -w Heure.wav "bonjour , il est $H heures $M !";
+  clear
+  Meteo
+  echo "il est $H heures $M . Nous sommes le $D"
+  Horloge
+  cowsay -f tux " $moment "
+}
+
+    #Horloge parlante ! $pico2wave passe le txt en .wav $mplayer diffuse le son
+Horloge ()
+{
+  pico2wave -l fr-FR -w Heure.wav "bonjour , il est $H heures $M . Nous sommes le $D"
   mplayer Heure.wav > /dev/null 2>&1
   rm Heure.wav
 }
@@ -24,15 +34,18 @@ horloge ()
     #determine le dernier podcast via un flux rss et lit la premiere minute
 News()
 {
-  cowsay -f tux " Bulletin du $moment "
-  meteo
-  horloge
+  Instant
+  Refresh
 
   actuPod=$(curl -s $url | grep -m 1 "guid" | sed 's/<guid >\|<\/guid>//g') > /dev/null
-  #mplayer -endpos 00:01:15 $actuPod > /dev/null 2>&1
+  mplayer -endpos 00:01:15 $actuPod > /dev/null 2>&1
+
+  moment="La Science Aleatoire"
+  Refresh
 }
 
-tech()
+    #list differentes sources/links des podcast high Tech
+Tech()
 {
   touch ghost.i
 
@@ -41,12 +54,15 @@ tech()
   curl -s http://radiofrance-podcast.net/podcast09/rss_16589.xml | grep "guid" | sed 's/<guid >\|<\/guid>//g' >> ghost.i
   curl -s http://radiofrance-podcast.net/podcast09/rss_18098.xml | grep "guid" | sed 's/<guid >\|<\/guid>//g' >> ghost.i
   curl -s  http://radiofrance-podcast.net/podcast09/rss_12625.xml | grep "guid" | sed 's/<guid >\|<\/guid>//g' >> ghost.i
+  curl -s http://radiofrance-podcast.net/podcast09/rss_18998.xml | grep "guid" | sed 's/<guid >\|<\/guid>//g' >> ghost.i
   sed -i 's/ //g' ghost.i
-  randomPod
+
+  RandomPod
 
 }> /dev/null 2>&1
 
-randomPod()
+    #Lecture aleatoire d un podcast
+RandomPod()
 {
   Podnb=$(wc -l ghost.i | cut -d ' ' -f1)
   Rdmnb=$(( $RANDOM % $Podnb ))
@@ -62,21 +78,23 @@ Instant()
 {
   if ((H<=13))
     then
-    moment="matin"
+    moment="Bulletin du  matin"
     url="http://radiofrance-podcast.net/podcast09/rss_12559.xml"
     elif ((H<19))
       then
-        moment="midi"
+        moment="Bulletin du  midi"
         url="http://radiofrance-podcast.net/podcast09/rss_11673.xml"
     else
-      moment="soir"
+      moment="Bulletin du  soir"
       url="http://radiofrance-podcast.net/podcast09/rss_11736.xml"
   fi
 }
+
     #noComment...
-meteo()
+Meteo()
 {
   curl 'http://wttr.in/paris?0&lang=fr'
 }
 
 start
+rm ghost.i
