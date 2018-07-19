@@ -7,7 +7,10 @@ Horloge parlante et podcast tech en aleatoire , le tout lu depuis le terminal
 
 ## Getting Started
 
- Launch Script 
+ Launch Script : 
+ ```
+ $bash actupodcast.bash
+ ```
 
 
 ## Install
@@ -16,7 +19,6 @@ Linux :
  - 1 Alt + Shift + T
  - 2 git clone https://github.com/Roiseuxquentin/actupodcast.git
  - 3 cd actupodcast
- - 4 bash rx.bash
 ```
 
 ### Prerequisites
