@@ -10,6 +10,8 @@ start()
 {
   News
   Tech
+  RandomPod
+  rm ghost.i
   clear
   echo "Bye"
 }
@@ -18,7 +20,6 @@ Refresh()
 {
   clear
   Meteo
-  echo "il est $H heures $M . Nous sommes le $D"
   Horloge
   cowsay -f tux " $moment "
 }
@@ -71,7 +72,7 @@ RandomPod()
   echo PodRdm "99999999999999999999999999999999999"
   mplayer $PodRdm
 
-}
+}> /dev/null 2>&1
 
     #Determine le moment de la journee
 Instant()
@@ -97,4 +98,3 @@ Meteo()
 }
 
 start
-rm ghost.i
