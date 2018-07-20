@@ -6,7 +6,7 @@ start()
 {
   Instant
   News
-  Horloge
+  Horlogebug
   Tech
   RandomPod
 }
