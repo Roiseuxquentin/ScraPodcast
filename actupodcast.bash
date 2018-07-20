@@ -5,22 +5,12 @@
 start()
 {
   Instant
+  Horloge
   News
-  Horlogebug
   Tech
   RandomPod
-}
-
-    #determine le dernier podcast via un flux rss et lit la premiere minute
-News()
-{
-  Refresh
-
-  actuPod=$(curl -s $url | grep -m 1 "guid" | sed 's/<guid >\|<\/guid>//g') > /dev/null
-  mplayer -endpos 00:01:15 $actuPod > /dev/null 2>&1
-
-  moment="La Science Aleatoire"
-  Refresh
+  RandomPod
+  Close
 }
 
     #Determine le moment de la journee
@@ -44,6 +34,18 @@ Instant()
   fi
 }
 
+    #determine le dernier podcast via un flux rss et lit la premiere minute
+News()
+{
+  Refresh
+
+  actuPod=$(curl -s $url | grep -m 1 "guid" | sed 's/<guid >\|<\/guid>//g') > /dev/null
+  mplayer -endpos 00:01:15 $actuPod > /dev/null 2>&1
+
+  moment="La Science Aleatoire"
+  Refresh
+}
+
 Refresh()
 {
   clear
@@ -60,6 +62,11 @@ Horloge ()
   rm Heure.wav
 }
 
+    #noComment...
+Meteo()
+{
+  curl 'http://wttr.in/paris?0&lang=fr'
+}
 
     #list differentes sources/links des podcast high Tech
 Tech()
@@ -90,15 +97,12 @@ RandomPod()
 
 }> /dev/null 2>&1
 
-
-    #noComment...
-Meteo()
+Close()
 {
-  curl 'http://wttr.in/paris?0&lang=fr'
+  rm ghost.i
+  clear
+  echo "Bye"
+  exit
 }
 
 start
-
-rm ghost.i
-clear
-echo "Bye"
