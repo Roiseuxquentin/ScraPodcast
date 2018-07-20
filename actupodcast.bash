@@ -2,40 +2,18 @@
 #eegloo
 #Version 4
 
-H=$(date +%H)
-M=$(date +%M)
-D=$(date +%d)
-
 start()
 {
+  Instant
   News
+  Horloge
   Tech
   RandomPod
-  rm ghost.i
-  clear
-  echo "Bye"
-}
-
-Refresh()
-{
-  clear
-  Meteo
-  Horloge
-  cowsay -f tux " $moment "
-}
-
-    #Horloge parlante ! $pico2wave passe le txt en .wav $mplayer diffuse le son
-Horloge ()
-{
-  pico2wave -l fr-FR -w Heure.wav "bonjour , il est $H heures $M . Nous sommes le $D"
-  mplayer Heure.wav > /dev/null 2>&1
-  rm Heure.wav
 }
 
     #determine le dernier podcast via un flux rss et lit la premiere minute
 News()
 {
-  Instant
   Refresh
 
   actuPod=$(curl -s $url | grep -m 1 "guid" | sed 's/<guid >\|<\/guid>//g') > /dev/null
@@ -44,6 +22,44 @@ News()
   moment="La Science Aleatoire"
   Refresh
 }
+
+    #Determine le moment de la journee
+Instant()
+{
+
+  H=$(date +%-H)
+  M=$(date +%M)
+
+  if (( $H < 13 ))
+    then
+    moment="Bulletin du  matin"
+    url="http://radiofrance-podcast.net/podcast09/rss_12559.xml"
+    elif (( $H < 19 ))
+      then
+        moment="Bulletin du  midi"
+        url="http://radiofrance-podcast.net/podcast09/rss_11673.xml"
+    else
+      moment="Bulletin du  soir"
+      url="http://radiofrance-podcast.net/podcast09/rss_11736.xml"
+  fi
+}
+
+Refresh()
+{
+  clear
+  Meteo
+  cowsay -f tux " $moment "
+}
+
+    #Horloge parlante ! $pico2wave passe le txt en .wav $mplayer diffuse le son
+Horloge ()
+{
+  D=$(date +%d)
+  pico2wave -l fr-FR -w Heure.wav "bonjour , il est $H heures $M . Nous sommes le $D"
+  mplayer Heure.wav > /dev/null 2>&1
+  rm Heure.wav
+}
+
 
     #list differentes sources/links des podcast high Tech
 Tech()
@@ -74,22 +90,6 @@ RandomPod()
 
 }> /dev/null 2>&1
 
-    #Determine le moment de la journee
-Instant()
-{
-  if ((H<=13))
-    then
-    moment="Bulletin du  matin"
-    url="http://radiofrance-podcast.net/podcast09/rss_12559.xml"
-    elif ((H<19))
-      then
-        moment="Bulletin du  midi"
-        url="http://radiofrance-podcast.net/podcast09/rss_11673.xml"
-    else
-      moment="Bulletin du  soir"
-      url="http://radiofrance-podcast.net/podcast09/rss_11736.xml"
-  fi
-}
 
     #noComment...
 Meteo()
@@ -98,3 +98,7 @@ Meteo()
 }
 
 start
+
+rm ghost.i
+clear
+echo "Bye"
