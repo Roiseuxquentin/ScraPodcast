@@ -34,7 +34,8 @@ Instant()
   fi
 }
 
-    #determine le dernier podcast via un flux rss et lit la premiere minute
+    #determine le dernier podcast d'information via un flux rss/xml
+    #lit la premiere minute, uniquement le sommaire , les titres du journal
 News()
 {
   Refresh
@@ -83,7 +84,8 @@ Tech()
 
   RandomPod
 
-}> /dev/null 2>&1
+}
+#> /dev/null 2>&1
 
     #Lecture aleatoire d un podcast
 RandomPod()
@@ -94,8 +96,8 @@ RandomPod()
 
   echo PodRdm "99999999999999999999999999999999999"
   mplayer $PodRdm
-
-}> /dev/null 2>&1
+} 
+#> /dev/null 2>&1
 
 Close()
 {
