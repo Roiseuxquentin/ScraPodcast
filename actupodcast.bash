@@ -84,8 +84,7 @@ Tech()
 
   RandomPod
 
-}
-#> /dev/null 2>&1
+}> /dev/null 2>&1
 
     #Lecture aleatoire d un podcast
 RandomPod()
@@ -96,8 +95,7 @@ RandomPod()
 
   echo PodRdm "99999999999999999999999999999999999"
   mplayer $PodRdm
-} 
-#> /dev/null 2>&1
+} > /dev/null 2>&1
 
 Close()
 {
