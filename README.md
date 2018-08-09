@@ -38,5 +38,6 @@ sudo apt-get install libttspico-utils
 
 ## Authors
 
-* **Quentin Roiseux** - *dev* - [RoiseuxQuentin](https://github.com/roiseuxquentin)
+* **Quentin Roiseux** - *dev* - [LinkedIn](https://www.linkedin.com/in/roiseuxquentin/)
+
 
